@@ -27,7 +27,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div>
+    <div className="pt-20 md:pt-24 pb-8">
       {/* Hero */}
       <OfferSlider fallback={<HeroBanner />} />
 
