@@ -19,6 +19,8 @@ import Login from './pages/admin/Login';
 import Dashboard from './pages/admin/Dashboard';
 import ProductManager from './pages/admin/ProductManager';
 import ProductForm from './pages/admin/ProductForm';
+import SlideManager from './pages/admin/SlideManager';
+import SlideForm from './pages/admin/SlideForm';
 
 // Protected Route component
 const ProtectedRoute = ({ children }) => {
@@ -44,7 +46,7 @@ const Layout = ({ children }) => {
     <div className="min-h-screen flex flex-col dark:bg-dark dark:text-gray-100">
       {!isAdmin && <Navbar />}
       <main className="flex-1">{children}</main>
-      {!isAdmin && <Footer />}
+      {location.pathname === '/' && <Footer />}
       {!isAdmin && <WhatsAppFloat />}
     </div>
   );
@@ -95,6 +97,30 @@ const App = () => {
                 element={
                   <ProtectedRoute>
                     <ProductForm />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/slides"
+                element={
+                  <ProtectedRoute>
+                    <SlideManager />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/slides/new"
+                element={
+                  <ProtectedRoute>
+                    <SlideForm />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/slides/edit/:id"
+                element={
+                  <ProtectedRoute>
+                    <SlideForm />
                   </ProtectedRoute>
                 }
               />

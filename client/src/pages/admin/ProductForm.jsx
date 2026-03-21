@@ -251,6 +251,7 @@ const ProductForm = () => {
                   {uploading ? 'Uploading...' : 'Click to upload images'}
                 </span>
                 <span className="text-xs text-gray-400 mt-1">JPG, PNG, WebP up to 5MB</span>
+                <span className="text-xs font-medium text-rose-gold mt-1">Tip: You can select and upload at least 4 images at once</span>
                 <input
                   type="file"
                   accept="image/*"

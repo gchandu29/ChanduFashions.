@@ -1,6 +1,6 @@
 import { FaWhatsapp, FaPhone, FaEnvelope, FaMapMarkerAlt, FaClock } from 'react-icons/fa';
 
-const WHATSAPP_NUMBER = '919876543210';
+import { WHATSAPP_NUMBER, EMAIL, ADDRESS } from '../constants';
 
 const Contact = () => {
   return (
@@ -39,14 +39,14 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-charcoal dark:text-white mb-1">WhatsApp (Preferred)</h3>
-                    <p className="text-gray-500 dark:text-gray-400 text-sm">+91 98765 43210</p>
+                    <p className="text-gray-500 dark:text-gray-400 text-sm">{WHATSAPP_NUMBER}</p>
                     <p className="text-green-600 text-sm mt-1">Tap to chat →</p>
                   </div>
                 </a>
 
                 {/* Phone */}
                 <a
-                  href="tel:+919876543210"
+                  href={`tel:${WHATSAPP_NUMBER}`}
                   className="flex items-start gap-4 p-5 rounded-2xl bg-gray-50 dark:bg-dark-100 hover:shadow-md transition-shadow group"
                 >
                   <div className="w-12 h-12 bg-charcoal dark:bg-rose-gold rounded-xl flex items-center justify-center text-white flex-shrink-0 group-hover:scale-110 transition-transform">
@@ -54,14 +54,14 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-charcoal dark:text-white mb-1">Phone</h3>
-                    <p className="text-gray-500 dark:text-gray-400 text-sm">+91 98765 43210</p>
+                    <p className="text-gray-500 dark:text-gray-400 text-sm">{WHATSAPP_NUMBER}</p>
                     <p className="text-gray-400 dark:text-gray-500 text-xs mt-1">Mon - Sat, 10 AM - 9 PM</p>
                   </div>
                 </a>
 
                 {/* Email */}
                 <a
-                  href="mailto:info@chandufashions.com"
+                  href={`mailto:${EMAIL}`}
                   className="flex items-start gap-4 p-5 rounded-2xl bg-gray-50 dark:bg-dark-100 hover:shadow-md transition-shadow group"
                 >
                   <div className="w-12 h-12 bg-charcoal dark:bg-rose-gold rounded-xl flex items-center justify-center text-white flex-shrink-0 group-hover:scale-110 transition-transform">
@@ -69,7 +69,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-charcoal dark:text-white mb-1">Email</h3>
-                    <p className="text-gray-500 dark:text-gray-400 text-sm">info@chandufashions.com</p>
+                    <p className="text-gray-500 dark:text-gray-400 text-sm">{EMAIL}</p>
                   </div>
                 </a>
 
@@ -81,8 +81,7 @@ const Contact = () => {
                   <div>
                     <h3 className="font-semibold text-charcoal dark:text-white mb-1">Visit Our Store</h3>
                     <p className="text-gray-500 dark:text-gray-400 text-sm">
-                      123 Fashion Street, City Center,<br />
-                      State - 500001, India
+                      {ADDRESS}
                     </p>
                   </div>
                 </div>

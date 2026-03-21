@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getProductStats } from '../../api/axios';
 import { useAuth } from '../../context/AuthContext';
-import { HiOutlineShoppingBag, HiOutlineTag, HiOutlineStar, HiOutlinePlus, HiOutlineLogout } from 'react-icons/hi';
+import { HiOutlineShoppingBag, HiOutlineTag, HiOutlineStar, HiOutlinePlus, HiOutlineLogout, HiOutlinePhotograph } from 'react-icons/hi';
 import { FaUsers, FaTshirt } from 'react-icons/fa';
 
 const Dashboard = () => {
@@ -92,6 +92,16 @@ const Dashboard = () => {
               <div>
                 <p className="font-medium text-charcoal dark:text-white text-sm">Add Product</p>
                 <p className="text-xs text-gray-500 dark:text-gray-400">Add a new product</p>
+              </div>
+            </Link>
+            <Link
+              to="/admin/slides"
+              className="flex items-center gap-3 p-4 rounded-xl bg-gray-50 dark:bg-dark-300 hover:bg-gray-100 dark:hover:bg-dark-200 transition-colors"
+            >
+              <HiOutlinePhotograph className="w-6 h-6 text-purple-500" />
+              <div>
+                <p className="font-medium text-charcoal dark:text-white text-sm">Manage Slides</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">Home page offer slider</p>
               </div>
             </Link>
             <Link

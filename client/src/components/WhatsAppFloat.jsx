@@ -1,6 +1,6 @@
 import { FaWhatsapp } from 'react-icons/fa';
 
-const WHATSAPP_NUMBER = '919876543210';
+import { WHATSAPP_NUMBER } from '../constants';
 
 const WhatsAppFloat = () => {
   return (

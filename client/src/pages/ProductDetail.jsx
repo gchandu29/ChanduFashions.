@@ -3,8 +3,8 @@ import { useParams, Link } from 'react-router-dom';
 import { getProduct } from '../api/axios';
 import { FaWhatsapp, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { HiArrowLeft } from 'react-icons/hi';
-
-const WHATSAPP_NUMBER = '919876543210';
+import { WHATSAPP_NUMBER } from '../constants';
+import AddressModal from '../components/AddressModal';
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -12,6 +12,7 @@ const ProductDetail = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedImage, setSelectedImage] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -169,15 +170,20 @@ const ProductDetail = () => {
             </div>
 
             {/* WhatsApp Order */}
-            <a
-              href={`https://wa.me/${WHATSAPP_NUMBER}?text=${whatsappMessage}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-whatsapp text-base py-4 mb-4"
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="btn-whatsapp text-sm py-3 mb-4"
             >
               <FaWhatsapp className="w-5 h-5" />
               Order on WhatsApp
-            </a>
+            </button>
+
+            <AddressModal
+              isOpen={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+              product={product}
+              whatsappNumber={WHATSAPP_NUMBER}
+            />
 
             <p className="text-xs text-gray-400 dark:text-gray-500 text-center">
               Click to open WhatsApp with pre-filled order details

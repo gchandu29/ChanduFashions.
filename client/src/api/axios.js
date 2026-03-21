@@ -41,6 +41,13 @@ export const createProduct = (data) => api.post('/products', data);
 export const updateProduct = (id, data) => api.put(`/products/${id}`, data);
 export const deleteProduct = (id) => api.delete(`/products/${id}`);
 
+// Slide APIs
+export const getSlides = () => api.get('/slides');
+export const getAdminSlides = () => api.get('/slides/admin');
+export const createSlide = (data) => api.post('/slides', data);
+export const updateSlide = (id, data) => api.put(`/slides/${id}`, data);
+export const deleteSlide = (id) => api.delete(`/slides/${id}`);
+
 // Auth APIs
 export const loginAdmin = (credentials) => api.post('/auth/login', credentials);
 export const verifyToken = () => api.get('/auth/verify');

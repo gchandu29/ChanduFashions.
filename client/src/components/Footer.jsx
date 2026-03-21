@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { FaWhatsapp, FaInstagram, FaFacebookF, FaMapMarkerAlt, FaPhone, FaEnvelope } from 'react-icons/fa';
 
-const WHATSAPP_NUMBER = '919876543210';
+import { WHATSAPP_NUMBER, EMAIL, ADDRESS } from '../constants';
 
 const Footer = () => {
   return (
@@ -85,18 +85,18 @@ const Footer = () => {
             <ul className="space-y-3">
               <li className="flex items-start gap-3">
                 <FaMapMarkerAlt className="w-4 h-4 mt-0.5 text-rose-gold flex-shrink-0" />
-                <span className="text-gray-400 text-sm">123 Fashion Street, City Center, State - 500001</span>
+                <span className="text-gray-400 text-sm">{ADDRESS}</span>
               </li>
               <li className="flex items-center gap-3">
                 <FaPhone className="w-4 h-4 text-rose-gold flex-shrink-0" />
-                <a href="tel:+919876543210" className="text-gray-400 hover:text-rose-gold text-sm transition-colors">
-                  +91 98765 43210
+                <a href={`tel:${WHATSAPP_NUMBER}`} className="text-gray-400 hover:text-rose-gold text-sm transition-colors">
+                  {WHATSAPP_NUMBER}
                 </a>
               </li>
               <li className="flex items-center gap-3">
                 <FaEnvelope className="w-4 h-4 text-rose-gold flex-shrink-0" />
-                <a href="mailto:info@chandufashions.com" className="text-gray-400 hover:text-rose-gold text-sm transition-colors">
-                  info@chandufashions.com
+                <a href={`mailto:${EMAIL}`} className="text-gray-400 hover:text-rose-gold text-sm transition-colors">
+                  {EMAIL}
                 </a>
               </li>
             </ul>
@@ -111,7 +111,7 @@ const Footer = () => {
             © {new Date().getFullYear()} Chandu Fashions. All rights reserved.
           </p>
           <p className="text-gray-500 text-xs">
-            Made with ♥ for fashion lovers
+            fashions
           </p>
         </div>
       </div>

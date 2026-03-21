@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getProducts } from '../api/axios';
 import HeroBanner from '../components/HeroBanner';
+import OfferSlider from '../components/OfferSlider';
 import CategorySection from '../components/CategorySection';
 import ProductCard from '../components/ProductCard';
 import { HiArrowRight } from 'react-icons/hi';
@@ -28,7 +29,7 @@ const Home = () => {
   return (
     <div>
       {/* Hero */}
-      <HeroBanner />
+      <OfferSlider fallback={<HeroBanner />} />
 
       {/* Categories */}
       <CategorySection />

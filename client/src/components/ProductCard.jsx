@@ -1,10 +1,13 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaWhatsapp } from 'react-icons/fa';
+import { FaWhatsapp, FaEye } from 'react-icons/fa';
 
-const WHATSAPP_NUMBER = '919876543210';
+import { WHATSAPP_NUMBER } from '../constants';
+import AddressModal from './AddressModal';
 
 const ProductCard = ({ product }) => {
   const { _id, name, price, images, category } = product;
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const whatsappMessage = encodeURIComponent(
     `Hi, I want to order this product:\n\nProduct Name: ${name}\nPrice: ₹${price}\nLink: ${window.location.origin}/product/${_id}`
@@ -42,16 +45,30 @@ const ProductCard = ({ product }) => {
         <p className="text-xl font-bold text-charcoal dark:text-white mb-3">
           ₹{price.toLocaleString('en-IN')}
         </p>
-        <a
-          href={`https://wa.me/${WHATSAPP_NUMBER}?text=${whatsappMessage}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="btn-whatsapp w-full text-center text-sm"
-        >
-          <FaWhatsapp className="w-4 h-4" />
-          Order on WhatsApp
-        </a>
+        <div className="flex flex-col sm:flex-row gap-2">
+          <Link
+            to={`/product/${_id}`}
+            className="flex-1 btn-secondary flex items-center justify-center gap-2 py-1.5 text-xs font-medium"
+          >
+            <FaEye className="w-4 h-4" />
+            View Details
+          </Link>
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="flex-1 btn-whatsapp flex items-center justify-center gap-2 py-1.5 text-xs font-medium"
+          >
+            <FaWhatsapp className="w-4 h-4" />
+            Order Now
+          </button>
+        </div>
       </div>
+
+      <AddressModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        product={product}
+        whatsappNumber={WHATSAPP_NUMBER}
+      />
     </div>
   );
 };

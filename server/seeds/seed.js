@@ -118,10 +118,10 @@ const seedDB = async () => {
 
     // Create admin
     const admin = await Admin.create({
-      username: 'admin',
-      password: 'admin123',
+      username: process.env.ADMIN_USERNAME || 'admin',
+      password: process.env.ADMIN_PASSWORD || 'admin123',
     });
-    console.log(`Admin created: ${admin.username} / admin123`);
+    console.log(`Admin created: ${admin.username} / ${process.env.ADMIN_PASSWORD ? '********' : 'admin123'}`);
 
     // Create products
     const products = await Product.insertMany(sampleProducts);

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { WHATSAPP_NUMBER } from '../constants';
 
 const HeroBanner = () => {
   return (
@@ -17,11 +18,6 @@ const HeroBanner = () => {
 
       <div className="container-custom relative z-10">
         <div className="max-w-3xl">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm text-white/80 mb-6 animate-fade-in">
-            <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-            New Collection 2026
-          </div>
 
           <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-bold text-white leading-[0.9] mb-6 animate-slide-up">
             Elevate Your
@@ -46,7 +42,7 @@ const HeroBanner = () => {
               </svg>
             </Link>
             <a
-              href="https://wa.me/919876543210?text=Hi!%20I%20want%20to%20know%20about%20your%20latest%20collection"
+              href={`https://wa.me/${WHATSAPP_NUMBER}?text=Hi!%20I%20want%20to%20know%20about%20your%20latest%20collection`}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-whatsapp px-8 py-4 text-sm"
@@ -74,12 +70,6 @@ const HeroBanner = () => {
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-        <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center pt-2">
-          <div className="w-1.5 h-3 bg-white/50 rounded-full" />
-        </div>
-      </div>
     </section>
   );
 };

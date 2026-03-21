@@ -95,9 +95,6 @@ const Login = () => {
             </button>
           </form>
 
-          <p className="text-center text-xs text-gray-400 dark:text-gray-500 mt-6">
-            Default: admin / admin123
-          </p>
         </div>
       </div>
     </div>
