@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { getProduct, createProduct, updateProduct, uploadImages } from '../../api/axios';
+import { getProduct, createProduct, updateProduct, uploadImages, getImageUrl } from '../../api/axios';
 import { HiOutlinePhotograph, HiOutlineX, HiArrowLeft } from 'react-icons/hi';
 
 const ProductForm = () => {
@@ -231,7 +231,7 @@ const ProductForm = () => {
                 <div className="flex flex-wrap gap-3 mb-4">
                   {form.images.map((img, idx) => (
                     <div key={idx} className="relative w-24 h-24 rounded-xl overflow-hidden group">
-                      <img src={img} alt="" className="w-full h-full object-cover" />
+                      <img src={getImageUrl(img)} alt="" className="w-full h-full object-cover" />
                       <button
                         type="button"
                         onClick={() => removeImage(idx)}

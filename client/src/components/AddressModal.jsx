@@ -8,7 +8,7 @@ const AddressModal = ({ isOpen, onClose, product, whatsappNumber }) => {
   if (!isOpen) return null;
 
   const { _id, name, price } = product;
-  
+
   const handleOrder = () => {
     if (!address.trim()) {
       alert('Please enter your delivery address');
@@ -17,10 +17,10 @@ const AddressModal = ({ isOpen, onClose, product, whatsappNumber }) => {
 
     const message = encodeURIComponent(
       `Hi, I want to order this product:\n\n` +
-      `📦 Product Name: ${name}\n` +
-      `🆔 Product ID: ${_id}\n` +
-      `💰 Price: ₹${price}\n` +
-      `📍 Delivery Address: ${address}\n\n` +
+      `Product Name: ${name}\n` +
+      ` Product ID: ${_id}\n` +
+      ` Price: ₹${price}\n` +
+      ` Delivery Address: ${address}\n\n` +
       `Link: ${window.location.origin}/product/${_id}`
     );
 

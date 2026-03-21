@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { getAdminSlides, createSlide, updateSlide, uploadImages } from '../../api/axios';
+import { getAdminSlides, createSlide, updateSlide, uploadImages, getImageUrl } from '../../api/axios';
 import { HiOutlinePhotograph, HiOutlineX, HiArrowLeft } from 'react-icons/hi';
 
 const SlideForm = () => {
@@ -213,7 +213,7 @@ const SlideForm = () => {
 
               {form.image && (
                 <div className="mb-4 relative w-full aspect-[21/9] rounded-xl overflow-hidden group">
-                  <img src={form.image} alt="" className="w-full h-full object-cover" />
+                  <img src={getImageUrl(form.image)} alt="" className="w-full h-full object-cover" />
                   <button
                     type="button"
                     onClick={() => setForm(f => ({ ...f, image: '' }))}

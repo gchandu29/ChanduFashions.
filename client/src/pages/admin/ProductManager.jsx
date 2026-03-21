@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getProducts, deleteProduct } from '../../api/axios';
+import { getProducts, deleteProduct, getImageUrl } from '../../api/axios';
 import { HiOutlinePlus, HiOutlinePencil, HiOutlineTrash, HiOutlineSearch } from 'react-icons/hi';
 
 const ProductManager = () => {
@@ -120,7 +120,7 @@ const ProductManager = () => {
                         <div className="flex items-center gap-3">
                           <div className="w-12 h-12 rounded-xl bg-gray-100 dark:bg-dark-300 overflow-hidden flex-shrink-0">
                             {product.images?.[0] ? (
-                              <img src={product.images[0]} alt="" className="w-full h-full object-cover" />
+                              <img src={getImageUrl(product.images[0])} alt="" className="w-full h-full object-cover" />
                             ) : (
                               <div className="w-full h-full flex items-center justify-center text-gray-400 text-xs">
                                 No img

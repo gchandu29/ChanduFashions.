@@ -4,6 +4,7 @@ import { HiOutlineX, HiOutlineTrash, HiPlus, HiMinus, HiOutlineShoppingCart } fr
 import { FaWhatsapp } from 'react-icons/fa';
 import { useCart } from '../context/CartContext';
 import { WHATSAPP_NUMBER } from '../constants';
+import { getImageUrl } from '../api/axios';
 
 const CartDrawer = () => {
   const {
@@ -118,7 +119,7 @@ const CartDrawer = () => {
                   {/* Image */}
                   <div className="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
                     <img
-                      src={item.image}
+                      src={getImageUrl(item.image)}
                       alt={item.name}
                       className="w-full h-full object-cover"
                     />

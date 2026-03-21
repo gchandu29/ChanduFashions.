@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { FaEye } from 'react-icons/fa';
 import { HiOutlineShoppingCart } from 'react-icons/hi';
 import { useCart } from '../context/CartContext';
+import { getImageUrl } from '../api/axios';
 
 const ProductCard = ({ product }) => {
   const { _id, name, price, images, category } = product;
@@ -14,14 +15,14 @@ const ProductCard = ({ product }) => {
   }[category] || 'badge-men';
 
   const placeholderImage = `https://placehold.co/400x500/2c2c2c/f7e7ce?text=${encodeURIComponent(name.split(' ')[0])}`;
-  const productImage = images && images.length > 0 ? images[0] : placeholderImage;
+  const productImage = images && images.length > 0 ? getImageUrl(images[0]) : placeholderImage;
 
   const handleAddToCart = () => {
     addToCart({
       id: _id,
       name,
       price,
-      image: productImage,
+      image: productImage, // Already wrapped
     });
   };
 

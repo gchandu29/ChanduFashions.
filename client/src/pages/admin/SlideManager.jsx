@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getAdminSlides, deleteSlide } from '../../api/axios';
+import { getAdminSlides, deleteSlide, getImageUrl } from '../../api/axios';
 import { HiOutlinePlus, HiOutlinePencil, HiOutlineTrash, HiOutlinePhotograph } from 'react-icons/hi';
 
 const SlideManager = () => {
@@ -69,7 +69,7 @@ const SlideManager = () => {
             slides.map((slide) => (
               <div key={slide._id} className="bg-white dark:bg-dark-100 rounded-2xl shadow-sm overflow-hidden group">
                 <div className="aspect-[16/9] relative overflow-hidden bg-gray-100 dark:bg-dark-300">
-                  <img src={slide.image} alt={slide.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <img src={getImageUrl(slide.image)} alt={slide.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   <div className={`absolute top-3 right-3 px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider ${slide.active ? 'bg-green-500 text-white' : 'bg-gray-500 text-white'}`}>
                     {slide.active ? 'Active' : 'Inactive'}
                   </div>

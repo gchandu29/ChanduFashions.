@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getSlides } from '../api/axios';
+import { getSlides, getImageUrl } from '../api/axios';
 import { HiChevronLeft, HiChevronRight } from 'react-icons/hi';
 
 const OfferSlider = ({ fallback }) => {
@@ -52,7 +52,7 @@ const OfferSlider = ({ fallback }) => {
         {slides.map((slide) => (
           <div key={slide._id} className="min-w-full h-full relative">
             <img 
-              src={slide.image} 
+              src={getImageUrl(slide.image)} 
               alt={slide.title}
               className="w-full h-full object-cover"
             />

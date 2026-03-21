@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { getProduct } from '../api/axios';
+import { getProduct, getImageUrl } from '../api/axios';
 import { FaWhatsapp, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { HiArrowLeft, HiOutlineShoppingCart } from 'react-icons/hi';
 import { WHATSAPP_NUMBER } from '../constants';
@@ -66,7 +66,7 @@ const ProductDetail = () => {
     `https://placehold.co/600x800/2c2c2c/f7e7ce?text=${encodeURIComponent(name.split(' ')[0])}`,
     `https://placehold.co/600x800/b76e79/ffffff?text=${encodeURIComponent(name.split(' ').slice(-1)[0])}`,
   ];
-  const displayImages = images && images.length > 0 ? images : placeholderImages;
+  const displayImages = images && images.length > 0 ? images.map(img => getImageUrl(img)) : placeholderImages;
 
   const whatsappMessage = encodeURIComponent(
     `Hi, I want to order this product:\n\nProduct Name: ${name}\nPrice: ₹${price}\nLink: ${window.location.href}`

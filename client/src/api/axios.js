@@ -58,4 +58,14 @@ export const uploadImages = (formData) =>
     headers: { 'Content-Type': 'multipart/form-data' },
   });
 
+// Image URL helper
+export const getImageUrl = (path) => {
+  if (!path) return '';
+  if (path.startsWith('http')) return path; // Already absolute URL
+  
+  // Remove /api from API_BASE if it exists, since uploads are usually served at the root
+  const baseUrl = API_BASE.endsWith('/api') ? API_BASE.slice(0, -4) : API_BASE;
+  return `${baseUrl}${path}`;
+};
+
 export default api;
