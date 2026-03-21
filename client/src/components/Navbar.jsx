@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { HiOutlineMenu, HiOutlineX, HiOutlineSearch } from 'react-icons/hi';
+import { HiOutlineMenu, HiOutlineX, HiOutlineSearch, HiOutlineShoppingCart } from 'react-icons/hi';
 import DarkModeToggle from './DarkModeToggle';
+import { useCart } from '../context/CartContext';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const { cartCount, toggleCart } = useCart();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -81,6 +83,22 @@ const Navbar = () => {
             >
               <HiOutlineSearch className="w-5 h-5" />
             </Link>
+
+            {/* Cart Icon */}
+            <button
+              onClick={toggleCart}
+              className="relative p-2 text-gray-500 hover:text-charcoal dark:text-gray-400 dark:hover:text-white transition-colors"
+              title="Shopping Cart"
+              aria-label="Open cart"
+            >
+              <HiOutlineShoppingCart className="w-5 h-5" />
+              {cartCount > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 w-5 h-5 bg-rose-gold text-white text-[10px] font-bold rounded-full flex items-center justify-center cart-badge-pop">
+                  {cartCount > 99 ? '99+' : cartCount}
+                </span>
+              )}
+            </button>
+
             <DarkModeToggle />
 
             {/* Mobile menu button */}

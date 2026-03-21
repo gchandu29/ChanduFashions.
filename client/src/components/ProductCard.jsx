@@ -1,17 +1,11 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaWhatsapp, FaEye } from 'react-icons/fa';
-
-import { WHATSAPP_NUMBER } from '../constants';
-import AddressModal from './AddressModal';
+import { FaEye } from 'react-icons/fa';
+import { HiOutlineShoppingCart } from 'react-icons/hi';
+import { useCart } from '../context/CartContext';
 
 const ProductCard = ({ product }) => {
   const { _id, name, price, images, category } = product;
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const whatsappMessage = encodeURIComponent(
-    `Hi, I want to order this product:\n\nProduct Name: ${name}\nPrice: ₹${price}\nLink: ${window.location.origin}/product/${_id}`
-  );
+  const { addToCart } = useCart();
 
   const badgeClass = {
     Men: 'badge-men',
@@ -20,13 +14,23 @@ const ProductCard = ({ product }) => {
   }[category] || 'badge-men';
 
   const placeholderImage = `https://placehold.co/400x500/2c2c2c/f7e7ce?text=${encodeURIComponent(name.split(' ')[0])}`;
+  const productImage = images && images.length > 0 ? images[0] : placeholderImage;
+
+  const handleAddToCart = () => {
+    addToCart({
+      id: _id,
+      name,
+      price,
+      image: productImage,
+    });
+  };
 
   return (
     <div className="card group" id={`product-card-${_id}`}>
       {/* Image */}
       <Link to={`/product/${_id}`} className="block relative overflow-hidden aspect-[3/4]">
         <img
-          src={images && images.length > 0 ? images[0] : placeholderImage}
+          src={productImage}
           alt={name}
           loading="lazy"
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
@@ -54,21 +58,14 @@ const ProductCard = ({ product }) => {
             View Details
           </Link>
           <button
-            onClick={() => setIsModalOpen(true)}
-            className="flex-1 btn-whatsapp flex items-center justify-center gap-2 py-1.5 text-xs font-medium"
+            onClick={handleAddToCart}
+            className="flex-1 btn-primary flex items-center justify-center gap-2 py-1.5 text-xs font-medium"
           >
-            <FaWhatsapp className="w-4 h-4" />
-            Order Now
+            <HiOutlineShoppingCart className="w-4 h-4" />
+            Add to Cart
           </button>
         </div>
       </div>
-
-      <AddressModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        product={product}
-        whatsappNumber={WHATSAPP_NUMBER}
-      />
     </div>
   );
 };

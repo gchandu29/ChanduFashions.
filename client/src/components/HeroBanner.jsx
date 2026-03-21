@@ -57,8 +57,8 @@ const HeroBanner = () => {
           {/* Stats */}
           <div className="flex gap-8 mt-12 pt-8 border-t border-white/10 animate-slide-up" style={{ animationDelay: '0.3s' }}>
             {[
-              { value: '500+', label: 'Products' },
-              { value: '10K+', label: 'Happy Customers' },
+              { value: '50+', label: 'Products' },
+              { value: '100+', label: 'Happy Customers' },
               { value: '5★', label: 'Rated Shop' },
             ].map((stat) => (
               <div key={stat.label}>

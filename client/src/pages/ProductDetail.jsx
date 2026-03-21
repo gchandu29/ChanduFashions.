@@ -2,9 +2,10 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getProduct } from '../api/axios';
 import { FaWhatsapp, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import { HiArrowLeft } from 'react-icons/hi';
+import { HiArrowLeft, HiOutlineShoppingCart } from 'react-icons/hi';
 import { WHATSAPP_NUMBER } from '../constants';
 import AddressModal from '../components/AddressModal';
+import { useCart } from '../context/CartContext';
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -13,6 +14,7 @@ const ProductDetail = () => {
   const [error, setError] = useState(null);
   const [selectedImage, setSelectedImage] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { addToCart } = useCart();
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -169,14 +171,26 @@ const ProductDetail = () => {
               ))}
             </div>
 
-            {/* WhatsApp Order */}
-            <button
-              onClick={() => setIsModalOpen(true)}
-              className="btn-whatsapp text-sm py-3 mb-4"
-            >
-              <FaWhatsapp className="w-5 h-5" />
-              Order on WhatsApp
-            </button>
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row gap-3 mb-4">
+              <button
+                onClick={() => {
+                  const img = displayImages[0];
+                  addToCart({ id: product._id, name, price, image: img });
+                }}
+                className="flex-1 btn-primary py-3 text-sm"
+              >
+                <HiOutlineShoppingCart className="w-5 h-5 mr-2" />
+                Add to Cart
+              </button>
+              <button
+                onClick={() => setIsModalOpen(true)}
+                className="flex-1 btn-whatsapp text-sm py-3"
+              >
+                <FaWhatsapp className="w-5 h-5" />
+                Order on WhatsApp
+              </button>
+            </div>
 
             <AddressModal
               isOpen={isModalOpen}
@@ -186,7 +200,7 @@ const ProductDetail = () => {
             />
 
             <p className="text-xs text-gray-400 dark:text-gray-500 text-center">
-              Click to open WhatsApp with pre-filled order details
+              Add to cart for multi-item checkout, or order directly via WhatsApp
             </p>
           </div>
         </div>

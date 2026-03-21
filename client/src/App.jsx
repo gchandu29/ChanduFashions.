@@ -1,11 +1,14 @@
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { CartProvider } from './context/CartContext';
 
 // Layout components
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import WhatsAppFloat from './components/WhatsAppFloat';
+import CartDrawer from './components/CartDrawer';
+import Toast from './components/Toast';
 
 // User pages
 import Home from './pages/Home';
@@ -48,6 +51,8 @@ const Layout = ({ children }) => {
       <main className="flex-1">{children}</main>
       {location.pathname === '/' && <Footer />}
       {!isAdmin && <WhatsAppFloat />}
+      {!isAdmin && <CartDrawer />}
+      {!isAdmin && <Toast />}
     </div>
   );
 };
@@ -55,93 +60,95 @@ const Layout = ({ children }) => {
 const App = () => {
   return (
     <ThemeProvider>
-      <AuthProvider>
-        <Router>
-          <Layout>
-            <Routes>
-              {/* User Routes */}
-              <Route path="/" element={<Home />} />
-              <Route path="/products" element={<Products />} />
-              <Route path="/product/:id" element={<ProductDetail />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/contact" element={<Contact />} />
+      <CartProvider>
+        <AuthProvider>
+          <Router>
+            <Layout>
+              <Routes>
+                {/* User Routes */}
+                <Route path="/" element={<Home />} />
+                <Route path="/products" element={<Products />} />
+                <Route path="/product/:id" element={<ProductDetail />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/contact" element={<Contact />} />
 
-              {/* Admin Routes */}
-              <Route path="/admin/login" element={<Login />} />
-              <Route
-                path="/admin/dashboard"
-                element={
-                  <ProtectedRoute>
-                    <Dashboard />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/admin/products"
-                element={
-                  <ProtectedRoute>
-                    <ProductManager />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/admin/products/new"
-                element={
-                  <ProtectedRoute>
-                    <ProductForm />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/admin/products/edit/:id"
-                element={
-                  <ProtectedRoute>
-                    <ProductForm />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/admin/slides"
-                element={
-                  <ProtectedRoute>
-                    <SlideManager />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/admin/slides/new"
-                element={
-                  <ProtectedRoute>
-                    <SlideForm />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/admin/slides/edit/:id"
-                element={
-                  <ProtectedRoute>
-                    <SlideForm />
-                  </ProtectedRoute>
-                }
-              />
+                {/* Admin Routes */}
+                <Route path="/admin/login" element={<Login />} />
+                <Route
+                  path="/admin/dashboard"
+                  element={
+                    <ProtectedRoute>
+                      <Dashboard />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/admin/products"
+                  element={
+                    <ProtectedRoute>
+                      <ProductManager />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/admin/products/new"
+                  element={
+                    <ProtectedRoute>
+                      <ProductForm />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/admin/products/edit/:id"
+                  element={
+                    <ProtectedRoute>
+                      <ProductForm />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/admin/slides"
+                  element={
+                    <ProtectedRoute>
+                      <SlideManager />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/admin/slides/new"
+                  element={
+                    <ProtectedRoute>
+                      <SlideForm />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/admin/slides/edit/:id"
+                  element={
+                    <ProtectedRoute>
+                      <SlideForm />
+                    </ProtectedRoute>
+                  }
+                />
 
-              {/* 404 */}
-              <Route
-                path="*"
-                element={
-                  <div className="min-h-screen flex items-center justify-center dark:bg-dark">
-                    <div className="text-center">
-                      <h1 className="text-6xl font-display font-bold text-charcoal dark:text-white mb-4">404</h1>
-                      <p className="text-gray-500 dark:text-gray-400 mb-6">Page not found</p>
-                      <a href="/" className="btn-primary">Go Home</a>
+                {/* 404 */}
+                <Route
+                  path="*"
+                  element={
+                    <div className="min-h-screen flex items-center justify-center dark:bg-dark">
+                      <div className="text-center">
+                        <h1 className="text-6xl font-display font-bold text-charcoal dark:text-white mb-4">404</h1>
+                        <p className="text-gray-500 dark:text-gray-400 mb-6">Page not found</p>
+                        <a href="/" className="btn-primary">Go Home</a>
+                      </div>
                     </div>
-                  </div>
-                }
-              />
-            </Routes>
-          </Layout>
-        </Router>
-      </AuthProvider>
+                  }
+                />
+              </Routes>
+            </Layout>
+          </Router>
+        </AuthProvider>
+      </CartProvider>
     </ThemeProvider>
   );
 };
