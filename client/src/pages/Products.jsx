@@ -1,13 +1,14 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { getProducts } from '../api/axios';
 import ProductCard from '../components/ProductCard';
 import SearchBar from '../components/SearchBar';
-import { HiOutlineFilter, HiOutlineViewGrid } from 'react-icons/hi';
+import { HiOutlineFilter, HiOutlineViewGrid, HiArrowLeft } from 'react-icons/hi';
 
 const categories = ['All', 'Men', 'Women', 'Kids'];
 
 const Products = () => {
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -66,13 +67,22 @@ const Products = () => {
     <div className="min-h-screen pt-24 pb-16 dark:bg-dark">
       <div className="container-custom">
         {/* Header */}
-        <div className="mb-10">
-          <h1 className="text-4xl md:text-5xl font-display font-bold text-charcoal dark:text-white mb-2">
-            Our Collection
-          </h1>
-          <p className="text-gray-500 dark:text-gray-400 text-lg">
-            {total} products available
-          </p>
+        <div className="mb-10 relative">
+          <button
+            onClick={() => navigate(-1)}
+            className="absolute left-0 top-1 p-2 text-gray-500 hover:text-charcoal dark:text-gray-400 dark:hover:text-white transition-colors flex items-center gap-2"
+          >
+            <HiArrowLeft className="w-5 h-5" />
+            <span className="hidden sm:inline font-medium">Back</span>
+          </button>
+          <div className="pl-12 sm:pl-24">
+            <h1 className="text-4xl md:text-5xl font-display font-bold text-charcoal dark:text-white mb-2">
+              Our Collection
+            </h1>
+            <p className="text-gray-500 dark:text-gray-400 text-lg">
+              {total} products available
+            </p>
+          </div>
         </div>
 
         {/* Filters */}

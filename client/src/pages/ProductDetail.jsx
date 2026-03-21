@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { getProduct, getImageUrl } from '../api/axios';
 import { FaWhatsapp, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { HiArrowLeft, HiOutlineShoppingCart } from 'react-icons/hi';
@@ -9,6 +9,7 @@ import { useCart } from '../context/CartContext';
 
 const ProductDetail = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -82,13 +83,13 @@ const ProductDetail = () => {
     <div className="min-h-screen pt-24 pb-16 dark:bg-dark">
       <div className="container-custom">
         {/* Back Button */}
-        <Link
-          to="/products"
-          className="inline-flex items-center gap-2 text-gray-500 hover:text-charcoal dark:text-gray-400 dark:hover:text-white mb-8 transition-colors"
+        <button
+          onClick={() => navigate(-1)}
+          className="inline-flex items-center gap-2 text-gray-500 hover:text-charcoal dark:text-gray-400 dark:hover:text-white mb-8 transition-colors bg-transparent border-0 cursor-pointer"
         >
           <HiArrowLeft className="w-4 h-4" />
-          Back to Shop
-        </Link>
+          Back
+        </button>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
           {/* Image Gallery */}

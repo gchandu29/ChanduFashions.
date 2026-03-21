@@ -1,12 +1,23 @@
 import { FaStar, FaHeart, FaStore, FaUsers, FaAward, FaHandshake } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import { HiArrowLeft } from 'react-icons/hi';
 
 const About = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="min-h-screen pt-24 pb-16 dark:bg-dark">
       {/* Hero */}
       <section className="py-16 bg-gradient-to-br from-champagne/50 to-primary-100/50 dark:from-dark-400 dark:to-dark-300">
-        <div className="container-custom text-center">
-          <h1 className="text-4xl md:text-6xl font-display font-bold text-charcoal dark:text-white mb-4">
+        <div className="container-custom text-center relative">
+          <button
+            onClick={() => navigate(-1)}
+            className="absolute left-4 md:left-8 top-0 p-2 text-gray-500 hover:text-charcoal dark:text-gray-400 dark:hover:text-white transition-colors flex items-center gap-2"
+          >
+            <HiArrowLeft className="w-5 h-5" />
+            <span className="hidden sm:inline font-medium">Back</span>
+          </button>
+          <h1 className="text-4xl md:text-6xl font-display font-bold text-charcoal dark:text-white mb-4 mt-8 md:mt-0">
             Our Story
           </h1>
           <p className="text-gray-600 dark:text-gray-300 text-lg max-w-2xl mx-auto leading-relaxed">

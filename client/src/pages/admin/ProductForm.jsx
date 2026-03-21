@@ -119,13 +119,13 @@ const ProductForm = () => {
     <div className="min-h-screen pt-24 pb-16 bg-gray-50 dark:bg-dark">
       <div className="container-custom max-w-3xl">
         {/* Back */}
-        <Link
-          to="/admin/products"
-          className="inline-flex items-center gap-2 text-gray-500 hover:text-charcoal dark:text-gray-400 dark:hover:text-white mb-6 transition-colors"
+        <button
+          onClick={() => navigate(-1)}
+          className="inline-flex items-center gap-2 text-gray-500 hover:text-charcoal dark:text-gray-400 dark:hover:text-white mb-6 transition-colors bg-transparent border-0 cursor-pointer"
         >
           <HiArrowLeft className="w-4 h-4" />
-          Back to Products
-        </Link>
+          Back
+        </button>
 
         <div className="bg-white dark:bg-dark-100 rounded-2xl shadow-sm p-6 md:p-8">
           <h1 className="text-2xl font-display font-bold text-charcoal dark:text-white mb-6">
