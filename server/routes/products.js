@@ -7,7 +7,7 @@ const router = express.Router();
 // GET /api/products — List products with optional filters
 router.get('/', async (req, res) => {
   try {
-    const { category, search, featured, limit, page = 1, subcategory, type } = req.query;
+    const { category, search, featured, limit, page = 1, subcategory, type, sizes } = req.query;
     const query = {};
 
     if (category) {
@@ -15,6 +15,10 @@ router.get('/', async (req, res) => {
     }
     if (subcategory) query.subcategory = subcategory;
     if (type) query.type = type;
+    if (sizes) {
+      const sizeList = sizes.split(',');
+      query.sizes = { $elemMatch: { size: { $in: sizeList }, available: true } };
+    }
 
     if (featured === 'true') {
       query.featured = true;

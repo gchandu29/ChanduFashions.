@@ -23,6 +23,16 @@ const TYPES = {
   Skirts: ['Mini', 'Midi', 'Maxi']
 };
 
+const SIZES = {
+  Shirts: ['S', 'M', 'L', 'XL', 'XXL'],
+  'T-Shirts': ['S', 'M', 'L', 'XL', 'XXL'],
+  Tops: ['S', 'M', 'L', 'XL', 'XXL'],
+  Dresses: ['S', 'M', 'L', 'XL', 'XXL'],
+  Pants: ['28', '30', '32', '34'],
+  Shorts: ['28', '30', '32', '34'],
+  Skirts: ['28', '30', '32', '34']
+};
+
 const Products = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -35,6 +45,7 @@ const Products = () => {
   const activeCategory = searchParams.get('category') || 'All';
   const activeSubcategory = searchParams.get('subcategory') || '';
   const activeType = searchParams.get('type') || '';
+  const activeSizes = searchParams.get('sizes') ? searchParams.get('sizes').split(',') : [];
   const searchQuery = searchParams.get('search') || '';
 
   const fetchProducts = useCallback(async () => {
@@ -44,6 +55,7 @@ const Products = () => {
       if (activeCategory !== 'All') params.category = activeCategory;
       if (activeSubcategory) params.subcategory = activeSubcategory;
       if (activeType) params.type = activeType;
+      if (activeSizes.length > 0) params.sizes = activeSizes.join(',');
       if (searchQuery) params.search = searchQuery;
 
       const { data } = await getProducts(params);
@@ -55,7 +67,7 @@ const Products = () => {
     } finally {
       setLoading(false);
     }
-  }, [activeCategory, activeSubcategory, activeType, searchQuery, page]);
+  }, [activeCategory, activeSubcategory, activeType, searchParams.get('sizes'), searchQuery, page]);
 
   useEffect(() => {
     fetchProducts();
@@ -70,6 +82,7 @@ const Products = () => {
     }
     params.delete('subcategory');
     params.delete('type');
+    params.delete('sizes');
     setSearchParams(params);
     setPage(1);
   };
@@ -82,6 +95,7 @@ const Products = () => {
       params.set('subcategory', subcat);
     }
     params.delete('type');
+    params.delete('sizes');
     setSearchParams(params);
     setPage(1);
   };
@@ -92,6 +106,24 @@ const Products = () => {
       params.delete('type');
     } else {
       params.set('type', typeStr);
+    }
+    setSearchParams(params);
+    setPage(1);
+  };
+
+  const handleSizeToggle = (size) => {
+    const params = new URLSearchParams(searchParams);
+    let newSizes = [...activeSizes];
+    if (newSizes.includes(size)) {
+      newSizes = newSizes.filter(s => s !== size);
+    } else {
+      newSizes.push(size);
+    }
+    
+    if (newSizes.length > 0) {
+      params.set('sizes', newSizes.join(','));
+    } else {
+      params.delete('sizes');
     }
     setSearchParams(params);
     setPage(1);
@@ -185,6 +217,25 @@ const Products = () => {
                   }`}
                 >
                   {type}
+                </button>
+              ))}
+            </div>
+          )}
+
+          {activeType && SIZES[activeSubcategory] && (
+            <div className="flex flex-wrap gap-2 items-center bg-gray-50 dark:bg-dark-200/50 p-3 rounded-2xl border border-gray-100 dark:border-gray-800">
+              <span className="text-sm font-semibold text-gray-500 dark:text-gray-400 mr-2 ml-1">Sizes:</span>
+              {SIZES[activeSubcategory].map(size => (
+                <button
+                  key={size}
+                  onClick={() => handleSizeToggle(size)}
+                  className={`min-w-[2.5rem] h-8 px-2 rounded-lg text-xs font-medium transition-all ${
+                    activeSizes.includes(size)
+                      ? 'bg-charcoal text-white dark:bg-rose-gold shadow-md'
+                      : 'bg-white border border-gray-200 text-gray-600 hover:border-charcoal dark:bg-dark-100 dark:border-gray-700 dark:text-gray-300 dark:hover:border-rose-gold hover:shadow-sm'
+                  }`}
+                >
+                  {size}
                 </button>
               ))}
             </div>
