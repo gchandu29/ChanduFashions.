@@ -15,6 +15,8 @@ const ProductDetail = () => {
   const [error, setError] = useState(null);
   const [selectedImage, setSelectedImage] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedSize, setSelectedSize] = useState('');
+  const [showSizeWarning, setShowSizeWarning] = useState(false);
   const { addToCart } = useCart();
 
   useEffect(() => {
@@ -63,9 +65,6 @@ const ProductDetail = () => {
   }
 
   const { name, price, category, subcategory, type, sizes, description, images } = product;
-  const [selectedSize, setSelectedSize] = useState('');
-  const [showSizeWarning, setShowSizeWarning] = useState(false);
-
   const availableSizes = sizes?.filter(s => s.available) || [];
   const placeholderImages = [
     `https://placehold.co/600x800/2c2c2c/f7e7ce?text=${encodeURIComponent(name.split(' ')[0])}`,
@@ -104,6 +103,7 @@ const ProductDetail = () => {
                 src={displayImages[selectedImage]}
                 alt={name}
                 className="w-full h-full object-cover"
+                onError={(e) => { e.target.onerror = null; e.target.src = placeholderImages[0] || displayImages[0]; }}
               />
               {displayImages.length > 1 && (
                 <>
@@ -136,7 +136,12 @@ const ProductDetail = () => {
                         : 'border-transparent opacity-60 hover:opacity-100'
                     }`}
                   >
-                    <img src={img} alt="" className="w-full h-full object-cover" />
+                    <img 
+                      src={img} 
+                      alt="" 
+                      className="w-full h-full object-cover"
+                      onError={(e) => { e.target.onerror = null; e.target.src = placeholderImages[idx % placeholderImages.length]; }}
+                    />
                   </button>
                 ))}
               </div>
