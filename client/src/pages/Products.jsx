@@ -222,7 +222,7 @@ const Products = () => {
             </div>
           )}
 
-          {activeType && SIZES[activeSubcategory] && (
+          {activeSubcategory && SIZES[activeSubcategory] && (
             <div className="flex flex-wrap gap-2 items-center bg-gray-50 dark:bg-dark-200/50 p-3 rounded-2xl border border-gray-100 dark:border-gray-800">
               <span className="text-sm font-semibold text-gray-500 dark:text-gray-400 mr-2 ml-1">Sizes:</span>
               {SIZES[activeSubcategory].map(size => (
