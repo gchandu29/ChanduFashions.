@@ -1,122 +1,66 @@
-import { FaStar, FaHeart, FaStore, FaUsers, FaAward, FaHandshake } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { HiArrowLeft } from 'react-icons/hi';
+import { FaHandsHelping } from 'react-icons/fa';
 
 const About = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen pt-24 pb-16 dark:bg-dark">
-      {/* Hero */}
-      <section className="py-16 bg-gradient-to-br from-champagne/50 to-primary-100/50 dark:from-dark-400 dark:to-dark-300">
-        <div className="container-custom text-center relative">
-          <button
-            onClick={() => navigate(-1)}
-            className="absolute left-4 md:left-8 top-0 p-2 text-gray-500 hover:text-charcoal dark:text-gray-400 dark:hover:text-white transition-colors flex items-center gap-2"
-          >
-            <HiArrowLeft className="w-5 h-5" />
-            <span className="hidden sm:inline font-medium">Back</span>
-          </button>
-          <h1 className="text-4xl md:text-6xl font-display font-bold text-charcoal dark:text-white mb-4 mt-8 md:mt-0">
-            Our Story
-          </h1>
-          <p className="text-gray-600 dark:text-gray-300 text-lg max-w-2xl mx-auto leading-relaxed">
-            Chandu Fashions has been serving fashion lovers with premium quality clothing since 2015. We believe everyone deserves to look and feel their best.
-          </p>
-        </div>
-      </section>
+    <div className="min-h-screen pt-24 pb-16 dark:bg-dark relative overflow-hidden">
+      {/* Background decorations */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-rose-gold/10 dark:bg-rose-gold/5 rounded-full blur-3xl -z-10 transform translate-x-1/2 -translate-y-1/2" />
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-primary-200/20 dark:bg-primary-900/10 rounded-full blur-3xl -z-10 transform -translate-x-1/2 translate-y-1/2" />
 
-      {/* Story */}
-      <section className="py-16">
-        <div className="container-custom">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-3xl font-display font-bold text-charcoal dark:text-white mb-6">
-                Fashion That Speaks <span className="text-rose-gold">Your Language</span>
-              </h2>
-              <div className="space-y-4 text-gray-600 dark:text-gray-300 leading-relaxed">
-                <p>
-                  What started as a small shop in the heart of the city has grown into a beloved fashion destination for thousands of families. At Chandu Fashions, we curate collections that blend traditional elegance with modern trends.
-                </p>
-                <p>
-                  We personally handpick each piece in our collection, ensuring quality, comfort, and style come together perfectly. From everyday casuals to festive wear, we've got you covered for every occasion.
-                </p>
-                <p>
-                  Our commitment to affordable pricing without compromising on quality has made us the go-to choice for fashion-conscious shoppers. We treat every customer like family.
+      <div className="container-custom relative">
+        <button
+          onClick={() => navigate(-1)}
+          className="absolute left-4 md:left-0 top-0 p-2 text-gray-500 hover:text-charcoal dark:text-gray-400 dark:hover:text-white transition-colors flex items-center gap-2 z-10"
+        >
+          <HiArrowLeft className="w-5 h-5" />
+          <span className="hidden sm:inline font-medium">Back</span>
+        </button>
+
+        <div className="max-w-3xl mx-auto mt-12 md:mt-16">
+          <div className="text-center mb-12">
+            <h1 className="text-4xl md:text-5xl font-display font-bold text-charcoal dark:text-white mb-6">
+              Our Story
+            </h1>
+            <div className="w-24 h-1 bg-gradient-to-r from-rose-gold to-accent-500 mx-auto rounded-full" />
+          </div>
+
+          <div className="bg-white/80 dark:bg-dark-100/80 backdrop-blur-xl rounded-3xl p-8 md:p-12 shadow-xl border border-white/70 dark:border-white/5 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-primary-50 dark:bg-dark-200 rounded-bl-full -z-10" />
+            <div className="absolute bottom-0 left-0 w-32 h-32 bg-champagne/30 dark:bg-rose-gold/5 rounded-tr-full -z-10" />
+
+            <h2 className="text-2xl md:text-3xl font-display font-bold text-charcoal dark:text-white mb-8 flex items-center gap-3">
+              At Chandu Fashions <span className="text-red-500">❤️</span>
+            </h2>
+
+            <div className="space-y-6 text-lg md:text-xl text-gray-600 dark:text-gray-300 leading-relaxed font-body">
+              <p>
+                We are not a big brand or company — we are a local store built with passion and dedication. Our mission is to provide the best quality clothes at affordable prices for everyone.
+              </p>
+              
+              <div className="flex gap-4 my-8 p-6 bg-gray-50/80 dark:bg-dark-200/50 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm">
+                 <FaHandsHelping className="w-8 h-8 text-rose-gold flex-shrink-0 mt-1" />
+                 <p className="font-medium text-charcoal dark:text-gray-200">
+                   We believe every customer is important, and we treat you like family. That’s why we focus on giving you the best quality, best price, and fastest delivery possible.
+                 </p>
+              </div>
+
+              <p>
+                Your support helps us grow, and we promise to always give you our best.
+              </p>
+
+              <div className="pt-8 mt-8 border-t border-gray-100 dark:border-gray-800">
+                <p className="font-display font-bold text-xl text-charcoal dark:text-white flex items-center gap-2">
+                  Thank you for trusting Chandu Fashions <span className="text-2xl">🙏</span>
                 </p>
               </div>
             </div>
-            <div className="relative">
-              <div className="aspect-square rounded-3xl bg-gradient-to-br from-charcoal to-dark flex items-center justify-center overflow-hidden">
-                <div className="text-center text-white p-8">
-                  <FaStore className="w-16 h-16 mx-auto mb-6 text-rose-gold" />
-                  <h3 className="text-2xl font-display font-bold mb-2">Since 2015</h3>
-                  <p className="text-gray-300">Serving fashion lovers with love</p>
-                </div>
-              </div>
-              {/* Decorative element */}
-              <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-rose-gold/20 rounded-2xl -z-10" />
-              <div className="absolute -top-4 -left-4 w-16 h-16 bg-champagne/40 rounded-2xl -z-10" />
-            </div>
           </div>
         </div>
-      </section>
-
-      {/* Stats */}
-      <section className="py-16 bg-charcoal text-white">
-        <div className="container-custom">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {[
-              { value: '8+', label: 'Years in Business', icon: FaAward },
-              { value: '10K+', label: 'Happy Customers', icon: FaUsers },
-              { value: '500+', label: 'Products', icon: FaStore },
-              { value: '5★', label: 'Average Rating', icon: FaStar },
-            ].map((stat) => (
-              <div key={stat.label} className="text-center">
-                <stat.icon className="w-8 h-8 mx-auto mb-3 text-rose-gold" />
-                <p className="text-3xl md:text-4xl font-display font-bold mb-1">{stat.value}</p>
-                <p className="text-gray-400 text-sm">{stat.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Values */}
-      <section className="py-16 dark:bg-dark-300">
-        <div className="container-custom">
-          <h2 className="section-title dark:text-white">Why Choose Us</h2>
-          <p className="section-subtitle dark:text-gray-400">What sets us apart</p>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                icon: FaStar,
-                title: 'Premium Quality',
-                desc: 'Every piece in our collection is carefully selected for quality fabric, stitching, and finish. We never compromise on quality.',
-              },
-              {
-                icon: FaHeart,
-                title: 'Customer First',
-                desc: 'Your satisfaction is our priority. From easy ordering via WhatsApp to hassle-free exchanges, we go the extra mile.',
-              },
-              {
-                icon: FaHandshake,
-                title: 'Fair Pricing',
-                desc: 'We believe fashion should be accessible. Our prices are competitive without cutting corners on quality.',
-              },
-            ].map((value) => (
-              <div key={value.title} className="card p-8 text-center group">
-                <div className="w-14 h-14 mx-auto mb-5 bg-champagne/50 dark:bg-rose-gold/10 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <value.icon className="w-6 h-6 text-rose-gold" />
-                </div>
-                <h3 className="text-xl font-display font-semibold text-charcoal dark:text-white mb-3">{value.title}</h3>
-                <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">{value.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      </div>
     </div>
   );
 };
