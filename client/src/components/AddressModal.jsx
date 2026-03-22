@@ -2,12 +2,12 @@ import { useState } from 'react';
 import { HiX } from 'react-icons/hi';
 import { FaWhatsapp } from 'react-icons/fa';
 
-const AddressModal = ({ isOpen, onClose, product, whatsappNumber }) => {
+const AddressModal = ({ isOpen, onClose, product, selectedSize, whatsappNumber }) => {
   const [address, setAddress] = useState('');
 
   if (!isOpen) return null;
 
-  const { _id, name, price } = product;
+  const { _id, name, price, type, sizes } = product;
 
   const handleOrder = () => {
     if (!address.trim()) {
@@ -15,14 +15,26 @@ const AddressModal = ({ isOpen, onClose, product, whatsappNumber }) => {
       return;
     }
 
-    const message = encodeURIComponent(
-      `Hi, I want to order this product:\n\n` +
-      `Product Name: ${name}\n` +
-      ` Product ID: ${_id}\n` +
-      ` Price: ₹${price}\n` +
-      ` Delivery Address: ${address}\n\n` +
+    const hasSizes = sizes && sizes.some(s => s.available);
+    if (hasSizes && !selectedSize) {
+      alert('Please close this modal and select a size first.');
+      return;
+    }
+
+    let messageLines = [
+      `Hi, I want to order this product:`,
+      '',
+      `Product Name: ${name}`,
+      ` Product ID: ${_id}`,
+      ...(type && type !== 'Standard' ? [` Type: ${type}`] : []),
+      ...(selectedSize ? [` Size: ${selectedSize}`] : []),
+      ` Price: ₹${price.toLocaleString('en-IN')}`,
+      ` Delivery Address: ${address}`,
+      '',
       `Link: ${window.location.origin}/product/${_id}`
-    );
+    ];
+
+    const message = encodeURIComponent(messageLines.join('\n'));
 
     window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
     onClose();
@@ -48,7 +60,13 @@ const AddressModal = ({ isOpen, onClose, product, whatsappNumber }) => {
             <div className="flex-1">
               <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Product</p>
               <h4 className="font-semibold text-charcoal dark:text-white line-clamp-1">{name}</h4>
-              <p className="text-lg font-bold text-rose-gold">₹{price.toLocaleString('en-IN')}</p>
+              {(type || selectedSize) && (
+                <div className="flex gap-2 text-xs text-gray-500 dark:text-gray-400 mt-1">
+                  {type && type !== 'Standard' && <span>Type: {type}</span>}
+                  {selectedSize && <span>Size: {selectedSize}</span>}
+                </div>
+              )}
+              <p className="text-lg font-bold text-rose-gold mt-1">₹{price.toLocaleString('en-IN')}</p>
             </div>
           </div>
 

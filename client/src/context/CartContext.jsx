@@ -33,27 +33,30 @@ export const CartProvider = ({ children }) => {
 
   const addToCart = useCallback((product) => {
     setCartItems((prev) => {
-      const existing = prev.find((item) => item.id === product.id);
+      const cartItemId = `${product.id}-${product.type || 'std'}-${product.selectedSize || 'nosize'}`;
+      const productWithCartId = { ...product, cartItemId };
+      
+      const existing = prev.find((item) => (item.cartItemId || item.id) === cartItemId);
       if (existing) {
         return prev.map((item) =>
-          item.id === product.id
+          (item.cartItemId || item.id) === cartItemId
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
       }
-      return [...prev, { ...product, quantity: 1 }];
+      return [...prev, { ...productWithCartId, quantity: 1 }];
     });
     showToast(`${product.name} added to cart!`);
   }, [showToast]);
 
-  const removeFromCart = useCallback((id) => {
-    setCartItems((prev) => prev.filter((item) => item.id !== id));
+  const removeFromCart = useCallback((cartItemId) => {
+    setCartItems((prev) => prev.filter((item) => (item.cartItemId || item.id) !== cartItemId));
   }, []);
 
-  const updateQuantity = useCallback((id, delta) => {
+  const updateQuantity = useCallback((cartItemId, delta) => {
     setCartItems((prev) =>
       prev.map((item) => {
-        if (item.id !== id) return item;
+        if ((item.cartItemId || item.id) !== cartItemId) return item;
         const newQty = item.quantity + delta;
         return newQty >= 1 ? { ...item, quantity: newQty } : item;
       })

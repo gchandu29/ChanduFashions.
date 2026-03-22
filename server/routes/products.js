@@ -80,12 +80,15 @@ router.get('/:id', async (req, res) => {
 // POST /api/products — Create product (Admin only)
 router.post('/', auth, async (req, res) => {
   try {
-    const { name, price, category, description, images, featured } = req.body;
+    const { name, price, category, subcategory, type, sizes, description, images, featured } = req.body;
 
     const product = await Product.create({
       name,
       price,
       category,
+      subcategory,
+      type,
+      sizes: sizes || [],
       description,
       images: images || [],
       featured: featured || false,

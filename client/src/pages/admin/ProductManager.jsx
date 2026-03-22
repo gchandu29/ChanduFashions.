@@ -134,7 +134,10 @@ const ProductManager = () => {
                         </div>
                       </td>
                       <td className="px-6 py-4">
-                        <span className={badgeClass[product.category]}>{product.category}</span>
+                        <div className="flex flex-col gap-1">
+                          <span className={`${badgeClass[product.category] || 'badge-men'} w-fit`}>{product.category}</span>
+                          <span className="text-xs text-gray-500 dark:text-gray-400 w-fit">{product.subcategory || '-'} • {product.type || '-'}</span>
+                        </div>
                       </td>
                       <td className="px-6 py-4 text-sm font-medium text-charcoal dark:text-white">
                         ₹{product.price.toLocaleString('en-IN')}

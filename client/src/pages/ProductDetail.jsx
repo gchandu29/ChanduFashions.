@@ -62,7 +62,11 @@ const ProductDetail = () => {
     );
   }
 
-  const { name, price, category, description, images } = product;
+  const { name, price, category, subcategory, type, sizes, description, images } = product;
+  const [selectedSize, setSelectedSize] = useState('');
+  const [showSizeWarning, setShowSizeWarning] = useState(false);
+
+  const availableSizes = sizes?.filter(s => s.available) || [];
   const placeholderImages = [
     `https://placehold.co/600x800/2c2c2c/f7e7ce?text=${encodeURIComponent(name.split(' ')[0])}`,
     `https://placehold.co/600x800/b76e79/ffffff?text=${encodeURIComponent(name.split(' ').slice(-1)[0])}`,
@@ -141,7 +145,11 @@ const ProductDetail = () => {
 
           {/* Product Info */}
           <div className="flex flex-col">
-            <span className={`${badgeClass} self-start mb-4`}>{category}</span>
+            <div className="flex gap-2 mb-4 flex-wrap">
+              <span className={`${badgeClass}`}>{category}</span>
+              {subcategory && <span className="bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 text-xs font-semibold px-2.5 py-1 rounded-full">{subcategory}</span>}
+              {type && <span className="bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 text-xs font-semibold px-2.5 py-1 rounded-full">{type}</span>}
+            </div>
             <h1 className="text-3xl md:text-4xl font-display font-bold text-charcoal dark:text-white mb-3">
               {name}
             </h1>
@@ -172,16 +180,65 @@ const ProductDetail = () => {
               ))}
             </div>
 
+            {/* Size Selection */}
+            {availableSizes.length > 0 && (
+              <div className="mb-8">
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wide">
+                    Select Size *
+                  </h3>
+                  <button className="text-xs text-blue-600 hover:underline dark:text-blue-400">Size Guide</button>
+                </div>
+                
+                <div className="flex flex-wrap gap-3">
+                  {sizes.map((sizeObj) => {
+                    const isAvailable = sizeObj.available;
+                    const isSelected = selectedSize === sizeObj.size;
+                    return (
+                      <button
+                        key={sizeObj.size}
+                        disabled={!isAvailable}
+                        onClick={() => {
+                          setSelectedSize(sizeObj.size);
+                          setShowSizeWarning(false);
+                        }}
+                        className={`min-w-[3rem] h-10 px-3 rounded-xl text-sm font-medium transition-all ${
+                          !isAvailable
+                            ? 'bg-gray-100 text-gray-400 cursor-not-allowed dark:bg-gray-800 dark:text-gray-600 border border-transparent'
+                            : isSelected
+                            ? 'bg-charcoal text-white dark:bg-rose-gold shadow-md'
+                            : 'bg-white text-gray-700 border border-gray-200 hover:border-charcoal dark:bg-dark-100 dark:text-gray-300 dark:border-gray-700 dark:hover:border-rose-gold hover:shadow-sm'
+                        }`}
+                      >
+                        {sizeObj.size}
+                      </button>
+                    );
+                  })}
+                </div>
+                {showSizeWarning && (
+                  <p className="text-red-500 text-sm mt-2 animate-bounce">Please select a size to continue</p>
+                )}
+              </div>
+            )}
+
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 mb-4">
               <button
                 onClick={() => {
+                  if (availableSizes.length > 0 && !selectedSize) {
+                    setShowSizeWarning(true);
+                    return;
+                  }
                   const img = displayImages[0];
-                  addToCart({ id: product._id, name, price, image: img });
+                  addToCart({ id: product._id, name, price, image: img, type, selectedSize });
                 }}
-                className="flex-1 btn-primary py-3 text-sm"
+                className={`flex-1 py-3 text-sm flex items-center justify-center gap-2 rounded-xl font-medium transition-all ${
+                  availableSizes.length > 0 && !selectedSize 
+                  ? 'bg-gray-200 text-gray-500 cursor-not-allowed dark:bg-gray-800 dark:text-gray-400' 
+                  : 'btn-primary'
+                }`}
               >
-                <HiOutlineShoppingCart className="w-5 h-5 mr-2" />
+                <HiOutlineShoppingCart className="w-5 h-5" />
                 Add to Cart
               </button>
               <button
@@ -197,6 +254,7 @@ const ProductDetail = () => {
               isOpen={isModalOpen}
               onClose={() => setIsModalOpen(false)}
               product={product}
+              selectedSize={selectedSize}
               whatsappNumber={WHATSAPP_NUMBER}
             />
 

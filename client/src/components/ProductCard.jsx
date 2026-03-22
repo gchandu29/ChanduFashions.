@@ -1,12 +1,15 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaEye } from 'react-icons/fa';
 import { HiOutlineShoppingCart } from 'react-icons/hi';
 import { useCart } from '../context/CartContext';
 import { getImageUrl } from '../api/axios';
 
 const ProductCard = ({ product }) => {
-  const { _id, name, price, images, category } = product;
+  const { _id, name, price, images, category, subcategory, type, sizes } = product;
   const { addToCart } = useCart();
+  const navigate = useNavigate();
+
+  const hasSizes = sizes && sizes.some(s => s.available);
 
   const badgeClass = {
     Men: 'badge-men',
@@ -18,11 +21,17 @@ const ProductCard = ({ product }) => {
   const productImage = images && images.length > 0 ? getImageUrl(images[0]) : placeholderImage;
 
   const handleAddToCart = () => {
+    if (hasSizes) {
+      navigate(`/product/${_id}`);
+      return;
+    }
     addToCart({
       id: _id,
       name,
       price,
-      image: productImage, // Already wrapped
+      image: productImage,
+      type: type || 'Standard',
+      selectedSize: null
     });
   };
 
@@ -59,11 +68,11 @@ const ProductCard = ({ product }) => {
             View Details
           </Link>
           <button
-            onClick={handleAddToCart}
+            onClick={hasSizes ? () => window.location.href = `/product/${_id}` : handleAddToCart}
             className="flex-1 btn-primary flex items-center justify-center gap-2 py-1.5 text-xs font-medium"
           >
             <HiOutlineShoppingCart className="w-4 h-4" />
-            Add to Cart
+            {hasSizes ? 'Select Size' : 'Add to Cart'}
           </button>
         </div>
       </div>

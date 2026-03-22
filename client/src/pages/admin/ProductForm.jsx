@@ -3,6 +3,34 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { getProduct, createProduct, updateProduct, uploadImages, getImageUrl } from '../../api/axios';
 import { HiOutlinePhotograph, HiOutlineX, HiArrowLeft } from 'react-icons/hi';
 
+const SUBCATEGORIES = {
+  Men: ['Shirts', 'Pants', 'T-Shirts', 'Shorts'],
+  Women: ['Tops', 'Dresses', 'Pants', 'Skirts'],
+  Kids: ['Shirts', 'Pants', 'T-Shirts', 'Shorts']
+};
+
+const TYPES = {
+  Shirts: ['Linen', 'Korean Linen', 'Cotton', 'Checks', 'Formals', 'Fabric', 'Double Pocket'],
+  Pants: ['Lycra', 'Cotton', 'Linen', 'Formals', 'Jeans Normal', 'Baggy Jeans', 'Fit Baggy'],
+  'T-Shirts': ['Cotton', 'Polo', 'Oversized', 'Sports'],
+  Shorts: ['Cotton', 'Denim', 'Sports'],
+  Tops: ['Casual', 'Formal', 'Printed'],
+  Dresses: ['Casual', 'Party', 'A-Line'],
+  Skirts: ['Mini', 'Midi', 'Maxi']
+};
+
+const DEFAULT_TYPES = ['Standard', 'Premium'];
+
+const SIZES = {
+  Shirts: ['S', 'M', 'L', 'XL', 'XXL'],
+  'T-Shirts': ['S', 'M', 'L', 'XL', 'XXL'],
+  Tops: ['S', 'M', 'L', 'XL', 'XXL'],
+  Dresses: ['S', 'M', 'L', 'XL', 'XXL'],
+  Pants: ['28', '30', '32', '34'],
+  Shorts: ['28', '30', '32', '34'],
+  Skirts: ['28', '30', '32', '34']
+};
+
 const ProductForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -12,6 +40,9 @@ const ProductForm = () => {
     name: '',
     price: '',
     category: 'Men',
+    subcategory: 'Shirts',
+    type: 'Linen',
+    sizes: SIZES['Shirts'].map(s => ({ size: s, available: true })),
     description: '',
     featured: false,
     images: [],
@@ -29,7 +60,10 @@ const ProductForm = () => {
           setForm({
             name: data.name,
             price: data.price.toString(),
-            category: data.category,
+            category: data.category || 'Men',
+            subcategory: data.subcategory || 'Shirts',
+            type: data.type || 'Linen',
+            sizes: data.sizes?.length ? data.sizes : SIZES[data.subcategory || 'Shirts']?.map(s => ({ size: s, available: true })) || [],
             description: data.description || '',
             featured: data.featured || false,
             images: data.images || [],
@@ -46,9 +80,28 @@ const ProductForm = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setForm((prev) => ({
+    
+    if (name === 'category') {
+      const firstSub = SUBCATEGORIES[value]?.[0] || 'Shirts';
+      const firstType = TYPES[firstSub]?.[0] || DEFAULT_TYPES[0];
+      const defaultSizes = (SIZES[firstSub] || ['S', 'M', 'L']).map(s => ({ size: s, available: true }));
+      setForm(prev => ({ ...prev, category: value, subcategory: firstSub, type: firstType, sizes: defaultSizes }));
+    } else if (name === 'subcategory') {
+      const firstType = TYPES[value]?.[0] || DEFAULT_TYPES[0];
+      const defaultSizes = (SIZES[value] || ['S', 'M', 'L']).map(s => ({ size: s, available: true }));
+      setForm(prev => ({ ...prev, subcategory: value, type: firstType, sizes: defaultSizes }));
+    } else {
+      setForm((prev) => ({
+        ...prev,
+        [name]: type === 'checkbox' ? checked : value,
+      }));
+    }
+  };
+
+  const handleSizeToggle = (sizeStr) => {
+    setForm(prev => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value,
+      sizes: prev.sizes.map(s => s.size === sizeStr ? { ...s, available: !s.available } : s)
     }));
   };
 
@@ -187,6 +240,60 @@ const ProductForm = () => {
                   <option value="Women">Women</option>
                   <option value="Kids">Kids</option>
                 </select>
+              </div>
+            </div>
+
+            {/* Subcategory & Type */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Subcategory *
+                </label>
+                <select
+                  name="subcategory"
+                  value={form.subcategory}
+                  onChange={handleChange}
+                  className="input-field"
+                >
+                  {(SUBCATEGORIES[form.category] || []).map(sub => (
+                    <option key={sub} value={sub}>{sub}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Type *
+                </label>
+                <select
+                  name="type"
+                  value={form.type}
+                  onChange={handleChange}
+                  className="input-field"
+                >
+                  {(TYPES[form.subcategory] || DEFAULT_TYPES).map(t => (
+                    <option key={t} value={t}>{t}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            {/* Sizes Availability */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                Available Sizes *
+              </label>
+              <div className="flex flex-wrap gap-3">
+                {form.sizes.map((sizeObj) => (
+                  <label key={sizeObj.size} className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={sizeObj.available}
+                      onChange={() => handleSizeToggle(sizeObj.size)}
+                      className="w-4 h-4 rounded border-gray-300 text-charcoal focus:ring-charcoal dark:border-gray-600"
+                    />
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{sizeObj.size}</span>
+                  </label>
+                ))}
               </div>
             </div>
 

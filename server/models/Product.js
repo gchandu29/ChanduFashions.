@@ -17,6 +17,26 @@ const productSchema = new mongoose.Schema(
       required: [true, 'Product category is required'],
       enum: ['Men', 'Women', 'Kids'],
     },
+    subcategory: {
+      type: String,
+      trim: true,
+    },
+    type: {
+      type: String,
+      trim: true,
+    },
+    sizes: [
+      {
+        size: {
+          type: String,
+          required: true,
+        },
+        available: {
+          type: Boolean,
+          default: true,
+        },
+      },
+    ],
     description: {
       type: String,
       default: '',

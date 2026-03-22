@@ -35,12 +35,17 @@ const CartDrawer = () => {
 
     const itemLines = cartItems
       .map(
-        (item, idx) =>
-          `${idx + 1}. ${item.name}\n   🆔 Product ID: ${item.id}\n   💰 Price: ₹${item.price.toLocaleString('en-IN')}\n   📦 Quantity: ${item.quantity}`
+        (item, idx) => {
+          let line = `${idx + 1}. ${item.name}`;
+          if (item.type && item.type !== 'Standard') line += `\n   Type: ${item.type}`;
+          if (item.selectedSize) line += `\n   Size: ${item.selectedSize}`;
+          line += `\n   Price: ₹${item.price.toLocaleString('en-IN')}\n   Quantity: ${item.quantity}`;
+          return line;
+        }
       )
       .join('\n\n');
 
-    const message = `Hi, I want to order:\n\n${itemLines}\n\n💰 Total: ₹${cartTotal.toLocaleString('en-IN')}\n📍 Delivery Address: ${address}\n\nThank you!`;
+    const message = `Hi, I want to order:\n\n${itemLines}\n\nTotal: ₹${cartTotal.toLocaleString('en-IN')}\nDelivery Address: ${address}\n\nThank you!`;
 
     const encoded = encodeURIComponent(message);
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encoded}`, '_blank');
@@ -130,6 +135,12 @@ const CartDrawer = () => {
                     <h4 className="text-sm font-semibold text-charcoal dark:text-white truncate">
                       {item.name}
                     </h4>
+                    {(item.type || item.selectedSize) && (
+                      <div className="flex gap-2 text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                        {item.type && item.type !== 'Standard' && <span>Type: {item.type}</span>}
+                        {item.selectedSize && <span>Size: {item.selectedSize}</span>}
+                      </div>
+                    )}
                     <p className="text-sm font-bold text-rose-gold mt-0.5">
                       ₹{item.price.toLocaleString('en-IN')}
                     </p>
@@ -137,7 +148,7 @@ const CartDrawer = () => {
                     {/* Quantity Controls */}
                     <div className="flex items-center gap-2 mt-2">
                       <button
-                        onClick={() => updateQuantity(item.id, -1)}
+                        onClick={() => updateQuantity(item.cartItemId || item.id, -1)}
                         className="w-7 h-7 rounded-lg bg-white dark:bg-dark-100 border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-dark transition-colors"
                         aria-label="Decrease quantity"
                       >
@@ -147,7 +158,7 @@ const CartDrawer = () => {
                         {item.quantity}
                       </span>
                       <button
-                        onClick={() => updateQuantity(item.id, 1)}
+                        onClick={() => updateQuantity(item.cartItemId || item.id, 1)}
                         className="w-7 h-7 rounded-lg bg-white dark:bg-dark-100 border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-dark transition-colors"
                         aria-label="Increase quantity"
                       >
@@ -161,7 +172,7 @@ const CartDrawer = () => {
 
                   {/* Remove */}
                   <button
-                    onClick={() => removeFromCart(item.id)}
+                    onClick={() => removeFromCart(item.cartItemId || item.id)}
                     className="p-1.5 self-start rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
                     aria-label="Remove item"
                   >
