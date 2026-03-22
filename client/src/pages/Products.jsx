@@ -7,6 +7,22 @@ import { HiOutlineFilter, HiOutlineViewGrid, HiArrowLeft } from 'react-icons/hi'
 
 const categories = ['All', 'Men', 'Women', 'Kids'];
 
+const SUBCATEGORIES = {
+  Men: ['Shirts', 'Pants', 'T-Shirts', 'Shorts'],
+  Women: ['Tops', 'Dresses', 'Pants', 'Skirts'],
+  Kids: ['Shirts', 'Pants', 'T-Shirts', 'Shorts']
+};
+
+const TYPES = {
+  Shirts: ['Linen', 'Korean Linen', 'Cotton', 'Checks', 'Formals', 'Fabric', 'Double Pocket'],
+  Pants: ['Lycra', 'Cotton', 'Linen', 'Formals', 'Jeans Normal', 'Baggy Jeans', 'Fit Baggy'],
+  'T-Shirts': ['Cotton', 'Polo', 'Oversized', 'Sports'],
+  Shorts: ['Cotton', 'Denim', 'Sports'],
+  Tops: ['Casual', 'Formal', 'Printed'],
+  Dresses: ['Casual', 'Party', 'A-Line'],
+  Skirts: ['Mini', 'Midi', 'Maxi']
+};
+
 const Products = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -17,6 +33,8 @@ const Products = () => {
   const [pages, setPages] = useState(1);
 
   const activeCategory = searchParams.get('category') || 'All';
+  const activeSubcategory = searchParams.get('subcategory') || '';
+  const activeType = searchParams.get('type') || '';
   const searchQuery = searchParams.get('search') || '';
 
   const fetchProducts = useCallback(async () => {
@@ -24,6 +42,8 @@ const Products = () => {
     try {
       const params = { page, limit: 12 };
       if (activeCategory !== 'All') params.category = activeCategory;
+      if (activeSubcategory) params.subcategory = activeSubcategory;
+      if (activeType) params.type = activeType;
       if (searchQuery) params.search = searchQuery;
 
       const { data } = await getProducts(params);
@@ -35,7 +55,7 @@ const Products = () => {
     } finally {
       setLoading(false);
     }
-  }, [activeCategory, searchQuery, page]);
+  }, [activeCategory, activeSubcategory, activeType, searchQuery, page]);
 
   useEffect(() => {
     fetchProducts();
@@ -47,6 +67,31 @@ const Products = () => {
       params.delete('category');
     } else {
       params.set('category', cat);
+    }
+    params.delete('subcategory');
+    params.delete('type');
+    setSearchParams(params);
+    setPage(1);
+  };
+
+  const handleSubcategoryChange = (subcat) => {
+    const params = new URLSearchParams(searchParams);
+    if (subcat === activeSubcategory) {
+      params.delete('subcategory');
+    } else {
+      params.set('subcategory', subcat);
+    }
+    params.delete('type');
+    setSearchParams(params);
+    setPage(1);
+  };
+
+  const handleTypeChange = (typeStr) => {
+    const params = new URLSearchParams(searchParams);
+    if (typeStr === activeType) {
+      params.delete('type');
+    } else {
+      params.set('type', typeStr);
     }
     setSearchParams(params);
     setPage(1);
@@ -86,24 +131,64 @@ const Products = () => {
         </div>
 
         {/* Filters */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-          <SearchBar onSearch={handleSearch} initialValue={searchQuery} />
+        <div className="flex flex-col mb-8 gap-4">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <SearchBar onSearch={handleSearch} initialValue={searchQuery} />
 
-          <div className="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => handleCategoryChange(cat)}
-                className={`px-5 py-2.5 rounded-xl text-sm font-medium whitespace-nowrap transition-all duration-200 ${
-                  activeCategory === cat
-                    ? 'bg-charcoal text-white dark:bg-rose-gold shadow-lg'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-dark-100 dark:text-gray-300 dark:hover:bg-dark-200'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
+            <div className="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => handleCategoryChange(cat)}
+                  className={`px-5 py-2.5 rounded-xl text-sm font-medium whitespace-nowrap transition-all duration-200 ${
+                    activeCategory === cat
+                      ? 'bg-charcoal text-white dark:bg-rose-gold shadow-lg'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-dark-100 dark:text-gray-300 dark:hover:bg-dark-200'
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
           </div>
+
+          {activeCategory !== 'All' && SUBCATEGORIES[activeCategory] && (
+            <div className="flex flex-wrap gap-2 items-center bg-white dark:bg-dark-100 p-3 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800">
+              <span className="text-sm font-semibold text-gray-500 dark:text-gray-400 mr-2 ml-1">Category:</span>
+              {SUBCATEGORIES[activeCategory].map(subcat => (
+                <button
+                  key={subcat}
+                  onClick={() => handleSubcategoryChange(subcat)}
+                  className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-all ${
+                    activeSubcategory === subcat
+                      ? 'bg-charcoal text-white dark:bg-rose-gold shadow-md'
+                      : 'bg-gray-50 text-gray-600 hover:bg-gray-200 dark:bg-dark-200 dark:text-gray-300 dark:hover:bg-dark-300'
+                  }`}
+                >
+                  {subcat}
+                </button>
+              ))}
+            </div>
+          )}
+
+          {activeSubcategory && TYPES[activeSubcategory] && (
+            <div className="flex flex-wrap gap-2 items-center bg-gray-50 dark:bg-dark-200/50 p-3 rounded-2xl border border-gray-100 dark:border-gray-800">
+              <span className="text-sm font-semibold text-gray-500 dark:text-gray-400 mr-2 ml-1">Type:</span>
+              {TYPES[activeSubcategory].map(type => (
+                <button
+                  key={type}
+                  onClick={() => handleTypeChange(type)}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                    activeType === type
+                      ? 'bg-charcoal text-white dark:bg-rose-gold shadow-sm'
+                      : 'bg-white border border-gray-200 text-gray-600 hover:border-charcoal dark:bg-dark-100 dark:border-gray-700 dark:text-gray-300 dark:hover:border-rose-gold hover:shadow-sm'
+                  }`}
+                >
+                  {type}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Products Grid */}
