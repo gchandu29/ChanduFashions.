@@ -11,23 +11,18 @@
       "config": { "distDir": "dist" }
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/api/(.*)",
-      "dest": "server/server.js"
+      "source": "/api/(.*)",
+      "destination": "server/server.js"
     },
     {
-      "src": "/uploads/(.*)",
-      "dest": "server/server.js"
+      "source": "/uploads/(.*)",
+      "destination": "server/server.js"
     },
     {
-      "src": "/(.*)",
-      "dest": "client/$1"
-    },
-    { "handle": "filesystem" },
-    {
-      "src": "/(.*)",
-      "dest": "client/index.html"
+      "source": "/((?!api/|uploads/|.*\\.).*)",
+      "destination": "client/index.html"
     }
   ]
 }
