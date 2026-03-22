@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { FaWhatsapp, FaInstagram, FaFacebookF, FaMapMarkerAlt, FaPhone, FaEnvelope } from 'react-icons/fa';
 
-import { WHATSAPP_NUMBER, EMAIL, ADDRESS } from '../constants';
+import { WHATSAPP_NUMBER, ADDRESS } from '../constants';
 
 const Footer = () => {
   return (
@@ -91,12 +91,6 @@ const Footer = () => {
                 <FaPhone className="w-4 h-4 text-rose-gold flex-shrink-0" />
                 <a href={`tel:${WHATSAPP_NUMBER}`} className="text-gray-400 hover:text-rose-gold text-sm transition-colors">
                   {WHATSAPP_NUMBER}
-                </a>
-              </li>
-              <li className="flex items-center gap-3">
-                <FaEnvelope className="w-4 h-4 text-rose-gold flex-shrink-0" />
-                <a href={`mailto:${EMAIL}`} className="text-gray-400 hover:text-rose-gold text-sm transition-colors">
-                  {EMAIL}
                 </a>
               </li>
             </ul>

@@ -78,7 +78,7 @@ const Home = () => {
         <div className="container-custom">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
-              { icon: FaTruck, title: 'Fast Delivery', desc: 'Quick shipping across India' },
+              { icon: FaTruck, title: 'Fast Delivery', desc: 'Across Vkota mandal' },
               { icon: FaShieldAlt, title: 'Quality Assured', desc: '100% genuine products' },
               { icon: FaHeadset, title: '24/7 Support', desc: 'Always here to help' },
               { icon: FaWhatsapp, title: 'Easy Ordering', desc: 'Order via WhatsApp' },
