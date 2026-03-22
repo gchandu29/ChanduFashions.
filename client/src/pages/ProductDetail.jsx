@@ -67,8 +67,8 @@ const ProductDetail = () => {
   const { name, price, category, subcategory, type, sizes, description, images } = product;
   const availableSizes = sizes?.filter(s => s.available) || [];
   const placeholderImages = [
-    `https://placehold.co/600x800/2c2c2c/f7e7ce?text=${encodeURIComponent(name.split(' ')[0])}`,
-    `https://placehold.co/600x800/b76e79/ffffff?text=${encodeURIComponent(name.split(' ').slice(-1)[0])}`,
+    `https://ui-avatars.com/api/?name=${encodeURIComponent(name.split(' ')[0] || 'CF')}&size=600&background=f8f9fa&color=2c2c2c&bold=true`,
+    `https://ui-avatars.com/api/?name=${encodeURIComponent(name.split(' ').slice(-1)[0] || 'Chandu')}&size=600&background=b76e79&color=ffffff&bold=true`,
   ];
   const displayImages = images && images.length > 0 ? images.map(img => getImageUrl(img)) : placeholderImages;
 

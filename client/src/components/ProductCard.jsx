@@ -20,7 +20,7 @@ const ProductCard = ({ product }) => {
      category === 'Women' ? 'bg-pink-50/90 text-pink-700 border-pink-200 dark:bg-pink-900/60 dark:text-pink-300 dark:border-pink-700/50' : 
      'bg-amber-50/90 text-amber-700 border-amber-200 dark:bg-amber-900/60 dark:text-amber-300 dark:border-amber-700/50');
 
-  const placeholderImage = `https://placehold.co/400x500/2c2c2c/f7e7ce?text=${encodeURIComponent(name.split(' ')[0])}`;
+  const placeholderImage = `https://ui-avatars.com/api/?name=${encodeURIComponent(name.split(' ')[0] || 'CF')}&size=500&background=f8f9fa&color=2c2c2c&bold=true`;
   const productImage = images && images.length > 0 ? getImageUrl(images[0]) : placeholderImage;
 
   const handleAddToCart = () => {
