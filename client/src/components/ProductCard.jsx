@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaEye } from 'react-icons/fa';
 import { HiOutlineShoppingCart } from 'react-icons/hi';
@@ -8,8 +9,11 @@ const ProductCard = ({ product }) => {
   const { _id, name, price, images, category, subcategory, type, sizes } = product;
   const { addToCart } = useCart();
   const navigate = useNavigate();
+  const [selectedSize, setSelectedSize] = useState('');
+  const [showWarning, setShowWarning] = useState(false);
 
-  const hasSizes = sizes && sizes.some(s => s.available);
+  const availableSizes = sizes?.filter(s => s.available) || [];
+  const hasSizes = availableSizes.length > 0;
 
   const badgeClass = {
     Men: 'badge-men',
@@ -21,8 +25,9 @@ const ProductCard = ({ product }) => {
   const productImage = images && images.length > 0 ? getImageUrl(images[0]) : placeholderImage;
 
   const handleAddToCart = () => {
-    if (hasSizes) {
-      navigate(`/product/${_id}`);
+    if (hasSizes && !selectedSize) {
+      setShowWarning(true);
+      setTimeout(() => setShowWarning(false), 2000);
       return;
     }
     addToCart({
@@ -31,8 +36,9 @@ const ProductCard = ({ product }) => {
       price,
       image: productImage,
       type: type || 'Standard',
-      selectedSize: null
+      selectedSize: hasSizes ? selectedSize : null
     });
+    setSelectedSize('');
   };
 
   return (
@@ -59,6 +65,32 @@ const ProductCard = ({ product }) => {
         <p className="text-xl font-bold text-charcoal dark:text-white mb-3">
           ₹{price.toLocaleString('en-IN')}
         </p>
+
+        {hasSizes && (
+          <div className="mb-4">
+            <div className="flex flex-wrap gap-2">
+              {availableSizes.map((sizeObj) => (
+                <button
+                  key={sizeObj.size}
+                  onClick={() => {
+                    setSelectedSize(sizeObj.size);
+                    setShowWarning(false);
+                  }}
+                  className={`min-w-[2rem] h-8 px-2 rounded-lg text-xs font-medium transition-all ${
+                    selectedSize === sizeObj.size
+                      ? 'bg-charcoal text-white dark:bg-rose-gold shadow-md'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-dark-100 dark:text-gray-300 dark:hover:bg-dark-200'
+                  }`}
+                >
+                  {sizeObj.size}
+                </button>
+              ))}
+            </div>
+            {showWarning && (
+              <p className="text-red-500 text-[10px] mt-1.5 animate-bounce font-medium">Please select a size first</p>
+            )}
+          </div>
+        )}
         <div className="flex flex-col sm:flex-row gap-2">
           <Link
             to={`/product/${_id}`}
@@ -68,11 +100,15 @@ const ProductCard = ({ product }) => {
             View Details
           </Link>
           <button
-            onClick={hasSizes ? () => window.location.href = `/product/${_id}` : handleAddToCart}
-            className="flex-1 btn-primary flex items-center justify-center gap-2 py-1.5 text-xs font-medium"
+            onClick={handleAddToCart}
+            className={`flex-1 flex items-center justify-center gap-2 py-1.5 text-xs font-medium transition-colors rounded-xl ${
+              hasSizes && !selectedSize
+                ? 'bg-gray-200 text-gray-500 cursor-not-allowed dark:bg-gray-800 dark:text-gray-400'
+                : 'btn-primary'
+            }`}
           >
             <HiOutlineShoppingCart className="w-4 h-4" />
-            {hasSizes ? 'Select Size' : 'Add to Cart'}
+            Add to Cart
           </button>
         </div>
       </div>
